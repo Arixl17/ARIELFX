@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ariel FX, editor de Shorts, TikToks y Reels en Quito, Ecuador. También edito videos de YouTube.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ariel FX</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Sedgwick+Ave+Display&family=Permanent+Marker&family=Archivo:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: una pared de concreto pintada. El hero es un muro donde se puede rociar con spray,
+   los proyectos son pósters pegados con cinta, los servicios son stickers y una cinta de
+   "precaución" cruza la página. Diseño de un solo tema (oscuro) a propósito. */
+:root {
+  --wall: #17161a;      /* concreto oscuro */
+  --wall-2: #221f26;
+  --paper: #efe9dc;     /* papel de póster */
+  --ink: #0d0c0f;
+  --fg: #f4f1ea;
+  --muted: #b3aebb;
+  --pink: #ff2e88;      /* spray rosa neón */
+  --yellow: #ffe14d;    /* spray amarillo */
+  --blue: #2ee6ff;      /* spray cian */
+  --font-tag: "Sedgwick Ave Display", "Permanent Marker", cursive;
+  --font-display: "Bungee", "Impact", "Arial Black", sans-serif;
+  --font-hand: "Permanent Marker", "Comic Sans MS", cursive;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+body {
+  background-color: var(--wall); color: var(--fg);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    radial-gradient(60% 40% at 80% 10%, rgba(255,46,136,.10), transparent 70%),
+    radial-gradient(50% 40% at 10% 60%, rgba(46,230,255,.07), transparent 70%);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--wall); }
+.wrap {
+  max-width: 1160px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; line-height: 1; text-wrap: balance; }
+.mono { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* Barra */
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: rgba(23,22,26,.9); backdrop-filter: blur(8px); border-bottom: 3px solid var(--ink); box-shadow: 0 3px 0 var(--pink); }
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { font-family: var(--font-tag); font-size: 34px; line-height: 1; text-decoration: none; color: var(--yellow); text-shadow: 3px 3px 0 var(--pink); }
+nav.links { display: flex; gap: 22px; flex-wrap: wrap; }
+nav.links a { text-decoration: none; font-family: var(--font-hand); font-size: 17px; color: var(--fg); }
+nav.links a:hover { color: var(--blue); text-decoration: underline wavy var(--pink); text-underline-offset: 6px; }
+@media (max-width: 680px) { nav.links { display: none; } }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; font-family: var(--font-display); font-size: 15px; text-decoration: none; text-transform: uppercase; border: 3px solid var(--ink); background: var(--fg); color: var(--ink); cursor: pointer; box-shadow: 5px 5px 0 var(--ink); transition: transform .12s, box-shadow .12s; }
+.btn:hover { transform: translate(-2px, -2px) rotate(-1deg); box-shadow: 7px 7px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+.btn.pink { background: var(--pink); color: #fff; }
+.btn.yellow { background: var(--yellow); }
+.btn.small { padding: 7px 14px; font-size: 13px; box-shadow: 3px 3px 0 var(--ink); }
+
+/* Hero: muro con spray */
+.hero { position: relative; overflow: hidden; border-bottom: 3px solid var(--ink); }
+#spray { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; cursor: crosshair; touch-action: pan-y; }
+.hero .wrap { position: relative; z-index: 1; padding-block: 48px 56px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: center; pointer-events: none; }
+.hero .wrap a, .hero .wrap button { pointer-events: auto; }
+.tagline { font-family: var(--font-hand); color: var(--blue); font-size: 20px; transform: rotate(-3deg); display: inline-block; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(48px, 8.2vw, 104px); line-height: .92; margin-top: 10px; letter-spacing: -.01em; }
+.hero h1 .tag { font-family: var(--font-tag); font-size: 1.12em; color: var(--pink); display: inline-block; transform: rotate(-4deg); text-shadow: 4px 4px 0 var(--ink), 6px 6px 0 var(--yellow); position: relative; }
+.hero h1 .tag::after { content: ""; position: absolute; left: 30%; bottom: -14px; width: 6px; height: 26px; background: var(--pink); border-radius: 0 0 6px 6px; animation: drip 3.2s ease-in infinite; }
+.hero h1 .tag::before { content: ""; position: absolute; left: 70%; bottom: -8px; width: 5px; height: 16px; background: var(--pink); border-radius: 0 0 5px 5px; animation: drip 4.1s ease-in infinite .8s; }
+@keyframes drip { 0%, 30% { height: 6px; } 100% { height: 34px; } }
+.hero p.lead { color: var(--fg); max-width: 42ch; font-size: 18px; margin: 26px 0 28px; background: rgba(13,12,15,.6); padding: 4px 0; }
+.ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.spray-hint { margin-top: 18px; font-family: var(--font-hand); color: var(--yellow); font-size: 15px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.cans { display: inline-flex; gap: 8px; }
+.can { width: 26px; height: 26px; border-radius: 50%; border: 3px solid var(--ink); cursor: pointer; padding: 0; box-shadow: 2px 2px 0 var(--ink); }
+.can[aria-pressed="true"] { outline: 3px solid var(--fg); outline-offset: 2px; }
+.clear { font-family: var(--font-mono); font-size: 11px; background: none; border: 0; color: var(--muted); text-decoration: underline; cursor: pointer; }
+
+.reel { position: relative; min-width: 0; transform: rotate(2deg); }
+.reel .tape { position: absolute; width: 110px; height: 30px; background: rgba(255,225,77,.78); top: -14px; z-index: 2; mix-blend-mode: normal; }
+.reel .tape.l { left: -16px; transform: rotate(-28deg); }
+.reel .tape.r { right: -16px; transform: rotate(24deg); }
+.reel { width: min(300px, 100%); justify-self: center; }
+.monitor { position: relative; display: block; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 26px; text-decoration: none; color: #fff; border: 4px solid var(--ink); box-shadow: 10px 10px 0 var(--pink); overflow: hidden;
+  background:
+    radial-gradient(70% 90% at 25% 30%, rgba(255,46,136,.85), transparent 60%),
+    radial-gradient(70% 80% at 80% 75%, rgba(46,230,255,.75), transparent 60%),
+    radial-gradient(40% 40% at 70% 20%, rgba(255,225,77,.7), transparent 70%),
+    #0b0a0d; }
+.monitor::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px 4px); pointer-events: none; }
+.monitor .label { position: absolute; top: 12px; left: 14px; font-family: var(--font-display); font-size: 14px; background: var(--ink); padding: 4px 10px; z-index: 1; }
+.monitor .play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 84px; height: 84px; border-radius: 50%; background: var(--yellow); border: 4px solid var(--ink); display: grid; place-items: center; z-index: 1; transition: transform .2s; box-shadow: 4px 4px 0 var(--ink); }
+.monitor:hover .play { transform: scale(1.1) rotate(-8deg); }
+.monitor .play::after { content: ""; border-left: 24px solid var(--ink); border-top: 14px solid transparent; border-bottom: 14px solid transparent; margin-left: 6px; }
+.monitor .hud { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; padding: 8px 12px; font-family: var(--font-mono); font-size: 12px; background: rgba(13,12,15,.8); z-index: 1; font-variant-numeric: tabular-nums; }
+.monitor.has-video { background: #fff; }
+.monitor.has-video::after { display: none; }
+.monitor video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.monitor .label { top: 14px; left: 14px; }
+.monitor .sound { position: absolute; top: 12px; right: 12px; z-index: 1; font: 700 12px var(--font-body); padding: 6px 10px; background: var(--yellow); color: var(--ink); border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); cursor: pointer; }
+.monitor .sound[aria-pressed="true"] { background: var(--pink); color: #fff; }
+.monitor button.play { cursor: pointer; padding: 0; }
+.rec { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--pink); margin-right: 6px; animation: blink 1.2s steps(2, start) infinite; }
+@keyframes blink { to { opacity: .2; } }
+.reel .scribble { position: absolute; left: -10px; right: -10px; text-align: center; bottom: -42px; font-family: var(--font-hand); color: var(--blue); font-size: 19px; transform: rotate(-4deg); }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; gap: 56px; } }
+
+main { overflow-x: clip; }
+/* Cinta de precaución */
+.caution { background: var(--yellow); color: var(--ink); border-block: 3px solid var(--ink); transform: rotate(-1.2deg); margin: 28px -20px; overflow: hidden; white-space: nowrap; position: relative; z-index: 2; }
+.caution .inner { display: inline-flex; gap: 40px; padding: 10px 0; font-family: var(--font-display); font-size: 22px; animation: roll 26s linear infinite; }
+.caution .inner span::after { content: "✶"; margin-left: 40px; color: var(--pink); }
+@keyframes roll { to { transform: translateX(-50%); } }
+
+/* Secciones */
+section.block > .wrap { padding-block: 64px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+.sec-head h2 { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); }
+.sec-head h2 .tag { font-family: var(--font-tag); color: var(--yellow); font-size: .8em; display: block; transform: rotate(-3deg); margin-bottom: -4px; text-shadow: 3px 3px 0 var(--ink); }
+
+/* Pósters de proyectos */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip { padding: 6px 14px; border: 3px solid var(--ink); background: var(--wall-2); color: var(--fg); font: 700 13px var(--font-body); text-transform: uppercase; cursor: pointer; box-shadow: 3px 3px 0 var(--ink); }
+.chip:nth-child(odd) { transform: rotate(-2deg); }
+.chip:nth-child(even) { transform: rotate(1.5deg); }
+.chip[aria-pressed="true"] { background: var(--blue); color: var(--ink); }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 44px 26px; }
+@media (max-width: 920px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 36px 18px; } .poster h3 { font-size: 17px; } .poster .meta { flex-direction: column; align-items: start; gap: 2px; } }
+.poster { min-width: 0; position: relative; display: block; text-decoration: none; background: var(--paper); color: var(--ink); padding: 12px 12px 16px; border: 3px solid var(--ink); box-shadow: 8px 8px 0 rgba(0,0,0,.55); transition: transform .18s; }
+.poster:nth-child(3n+1) { transform: rotate(-2deg); }
+.poster:nth-child(3n+2) { transform: rotate(1.5deg); }
+.poster:nth-child(3n) { transform: rotate(-.8deg); }
+.poster:hover, .poster:focus-visible { transform: rotate(0) scale(1.03); z-index: 2; }
+.poster .tape { position: absolute; top: -13px; left: 50%; width: 90px; height: 24px; translate: -50% 0; background: rgba(255,255,255,.55); transform: rotate(-4deg); border-inline: 2px dashed rgba(0,0,0,.08); }
+.thumb { position: relative; aspect-ratio: 9 / 16; max-width: 100%; overflow: hidden; border: 3px solid var(--ink); }
+.thumb .g { position: absolute; inset: 0; filter: contrast(1.2) saturate(1.3); }
+.thumb .g::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle, rgba(0,0,0,.35) 1px, transparent 1.6px) 0 0 / 6px 6px; mix-blend-mode: multiply; }
+.thumb .dur { position: absolute; right: 6px; bottom: 6px; background: var(--ink); color: var(--yellow); font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; font-variant-numeric: tabular-nums; }
+.thumb .fmt { position: absolute; left: 6px; top: 6px; background: var(--pink); color: #fff; font-family: var(--font-mono); font-weight: 700; font-size: 10px; padding: 1px 6px; }
+.thumb .mini { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 50px; height: 50px; border-radius: 50%; background: var(--yellow); border: 3px solid var(--ink); display: grid; place-items: center; opacity: 0; transition: opacity .2s; }
+.poster:hover .mini, .poster:focus-visible .mini { opacity: 1; }
+.thumb .mini::after { content: ""; border-left: 14px solid var(--ink); border-top: 9px solid transparent; border-bottom: 9px solid transparent; margin-left: 4px; }
+.poster h3 { font-family: var(--font-display); font-size: 21px; line-height: 1.05; margin-top: 12px; }
+.poster .meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; font-size: 14px; font-weight: 500; }
+.poster .meta .stamp { font-family: var(--font-hand); font-size: 14px; color: var(--pink); transform: rotate(-6deg); white-space: nowrap; }
+
+/* Sobre mí */
+.about { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: start; }
+@media (max-width: 780px) { .about { grid-template-columns: 1fr; } }
+.polaroid { background: var(--fg); padding: 12px 12px 48px; border: 3px solid var(--ink); transform: rotate(-3deg); box-shadow: 10px 10px 0 var(--blue); position: relative; max-width: 320px; }
+.polaroid .photo { aspect-ratio: 4 / 5; max-width: 100%; background: linear-gradient(160deg, #2a2730, #3b2140); display: grid; place-items: center; color: var(--muted); font-family: var(--font-mono); font-size: 12px; text-align: center; padding: 16px; }
+.polaroid .photo { position: relative; overflow: hidden; aspect-ratio: 1 / 1; }
+.polaroid .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.polaroid .cap { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; font-family: var(--font-hand); color: var(--ink); font-size: 20px; }
+.about-text { min-width: 0; }
+.about-text p { max-width: 60ch; color: var(--muted); margin: 0 0 16px; font-size: 17px; }
+.about-text p.big { font-family: var(--font-display); font-size: clamp(22px, 2.8vw, 32px); line-height: 1.15; color: var(--fg); }
+.about-text p.big mark { background: linear-gradient(transparent 55%, var(--pink) 55%); color: inherit; padding: 0 2px; }
+.tools { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 0; padding: 0; }
+.tools li { list-style: none; font-family: var(--font-display); font-size: 13px; padding: 8px 14px; border: 3px solid var(--ink); color: var(--ink); border-radius: 999px; box-shadow: 3px 3px 0 var(--ink); }
+.tools li:nth-child(4n+1) { background: var(--yellow); transform: rotate(-3deg); }
+.tools li:nth-child(4n+2) { background: var(--blue); transform: rotate(2deg); }
+.tools li:nth-child(4n+3) { background: var(--pink); color: #fff; transform: rotate(-1deg); }
+.tools li:nth-child(4n) { background: var(--fg); transform: rotate(3deg); }
+
+/* Servicios: stickers */
+.stickers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
+@media (max-width: 960px) { .stickers { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .stickers { grid-template-columns: 1fr; } }
+.sticker { min-width: 0; padding: 22px 20px; border: 3px solid var(--ink); color: var(--ink); box-shadow: 6px 6px 0 var(--ink); border-radius: 18px 4px 18px 4px; }
+.sticker:nth-child(1) { background: var(--yellow); transform: rotate(-2deg); }
+.sticker:nth-child(2) { background: var(--blue); transform: rotate(1.5deg); }
+.sticker:nth-child(3) { background: var(--pink); color: #fff; transform: rotate(-1deg); }
+.sticker:nth-child(4) { background: var(--paper); transform: rotate(2deg); position: relative; }
+.sticker .badge { position: absolute; top: -16px; right: -10px; background: var(--pink); color: #fff; font-family: var(--font-hand); font-size: 15px; padding: 3px 10px; border: 3px solid var(--ink); transform: rotate(8deg); }
+.sticker h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.05; }
+.sticker p { margin: 10px 0 14px; font-weight: 500; }
+.sticker .spec { font-family: var(--font-mono); font-size: 11px; border-top: 2px dashed currentColor; padding-top: 10px; }
+
+/* Contacto */
+.contact { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+@media (max-width: 780px) { .contact { grid-template-columns: 1fr; } }
+.contact h2 { font-family: var(--font-display); font-size: clamp(40px, 6vw, 70px); line-height: .95; }
+.contact h2 .tag { font-family: var(--font-tag); color: var(--pink); display: block; font-size: 1.1em; transform: rotate(-3deg); text-shadow: 3px 3px 0 var(--ink); }
+.contact-info { min-width: 0; display: grid; gap: 24px; align-content: start; }
+.row { display: grid; gap: 6px; }
+.row .mono { color: var(--yellow); }
+.copyline { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.copyline strong { font-size: 20px; font-weight: 700; user-select: all; word-break: break-all; }
+.socials { display: flex; gap: 18px; flex-wrap: wrap; }
+.socials a { font-family: var(--font-hand); font-size: 19px; color: var(--blue); }
+form { display: grid; gap: 14px; min-width: 0; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); padding: 26px; box-shadow: 10px 10px 0 var(--yellow); transform: rotate(.8deg); }
+form .ftitle { font-family: var(--font-hand); font-size: 24px; }
+label { display: grid; gap: 4px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+input, textarea, select { font: 16px var(--font-body); color: var(--ink); background: #fff; border: 3px solid var(--ink); padding: 10px 12px; width: 100%; border-radius: 0; color-scheme: light; }
+textarea { min-height: 120px; resize: vertical; }
+.note { font-family: var(--font-hand); font-size: 16px; color: #c4005f; min-height: 1.2em; margin: 0; }
+
+footer .wrap { padding-block: 30px 48px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 3px dashed #3a3640; color: var(--muted); }
+footer .sign { font-family: var(--font-tag); font-size: 28px; color: var(--yellow); line-height: 1; }
+.draft { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); border: 2px solid var(--yellow); padding: 6px 12px; font-family: var(--font-mono); font-size: 11px; color: var(--yellow); z-index: 6; transform: rotate(-2deg); }
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">Ariel FX</a>
+    <nav class="links" aria-label="Secciones">
+      <a href="#trabajos">Trabajos</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn pink small" href="#contacto">Cotiza</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <canvas id="spray" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div>
+        <span class="tagline">editor de video // shorts + youtube</span>
+        <h1>Videos que nadie puede <span class="tag">saltar</span>.</h1>
+        <p class="lead">Edito Shorts, TikToks y Reels que enganchan desde el primer segundo: cortes al beat, subtítulos que saltan y sonido que pega fuerte. Y ahora también tomo videos largos de YouTube.</p>
+        <div class="ctas">
+          <a class="btn yellow" href="#trabajos">Ver trabajos</a>
+          <a class="btn" href="#contacto">Hablemos</a>
+        </div>
+        <div class="spray-hint">
+          <span>Arrastra en la pared para rayarla →</span>
+          <span class="cans" role="group" aria-label="Color del spray">
+            <button class="can" type="button" aria-label="Rosa" aria-pressed="true" data-c="#ff2e88" style="background:#ff2e88"></button>
+            <button class="can" type="button" aria-label="Amarillo" aria-pressed="false" data-c="#ffe14d" style="background:#ffe14d"></button>
+            <button class="can" type="button" aria-label="Cian" aria-pressed="false" data-c="#2ee6ff" style="background:#2ee6ff"></button>
+          </span>
+          <button class="clear" type="button" id="clear">limpiar pared</button>
+        </div>
+      </div>
+      <div class="reel">
+        <span class="tape l" aria-hidden="true"></span><span class="tape r" aria-hidden="true"></span>
+        <div class="monitor has-video">
+          <video id="reel" src="reel.mp4" poster="poster.jpg" muted loop playsinline preload="auto" aria-label="Video destacado: promo para HEXZ Recargas"></video>
+          <span class="label">DESTACADO · HEXZ</span>
+          <button class="sound" id="sound" type="button" aria-pressed="false">🔇 Sonido</button>
+          <button class="play" id="playbtn" type="button" aria-label="Reproducir" hidden></button>
+          <span class="hud"><span><span class="rec"></span>9:16 · 30 fps</span><span id="tc">00:00:00:00</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="caution" aria-hidden="true">
+    <div class="inner">
+      <span>SHORTS</span><span>TIKTOK</span><span>REELS</span><span>SUBTÍTULOS</span><span>YOUTUBE</span><span>MONTAJE</span>
+      <span>SHORTS</span><span>TIKTOK</span><span>REELS</span><span>SUBTÍTULOS</span><span>YOUTUBE</span><span>MONTAJE</span>
+    </div>
+  </div>
+
+  <section class="block" id="trabajos">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><span class="tag">para creadores</span>Mis Shorts</h2>
+        <p class="mono" style="margin:0;color:var(--muted)">Toca uno para verlo en TikTok</p>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="block" id="sobre-mi">
+    <div class="wrap about">
+      <div class="polaroid">
+        <div class="photo"><img src="foto.jpg" alt="Avatar de Ariel FX" onerror="this.remove()"><span>Tu foto aquí<br>4:5</span></div>
+        <div class="cap">yo, editando a las 3 am</div>
+      </div>
+      <div class="about-text">
+        <div class="sec-head" style="margin-bottom:20px"><h2><span class="tag">quién soy</span>Sobre mí</h2></div>
+        <p class="big">Soy Ariel, de Quito, Ecuador. Edito desde los 12 años y corto <mark>justo en el golpe</mark>.</p>
+        <p>Me especializo en video vertical: Shorts, TikToks y Reels que retienen a la gente hasta el último segundo. Ahora quiero llevar ese ritmo a videos largos de YouTube, así que si tienes un canal y necesitas editor, escríbeme.</p>
+        <p>Ahora estoy aprendiendo Blender para meterle 3D a mis videos. Próximamente: textos, logos y escenas en 3D. Gracias S.A.</p>
+        <ul class="tools" aria-label="Herramientas">
+          <li>Premiere Pro</li><li>After Effects</li><li>Blender · próximamente</li><li>Alight Motion</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="servicios">
+    <div class="wrap">
+      <div class="sec-head"><h2><span class="tag">qué hago</span>Servicios</h2></div>
+      <div class="stickers">
+        <div class="sticker"><h3>Shorts</h3><p>Edición de video vertical con ritmo rápido y cortes al beat, lista para subir.</p><div class="spec">9:16 · 1080×1920 · hasta 3 min</div></div>
+        <div class="sticker"><h3>Ganchos y subtítulos</h3><p>Los primeros 2 segundos que hacen que no deslicen, y subtítulos animados palabra por palabra.</p><div class="spec">subtítulos quemados o .srt</div></div>
+        <div class="sticker"><h3>Una pieza, 3 redes</h3><p>Adapto cada video para YouTube Shorts, TikTok y Reels, con los márgenes de cada app.</p><div class="spec">Shorts · TikTok · Reels</div></div>
+        <div class="sticker"><span class="badge">¡nuevo!</span><h3>Videos de YouTube</h3><p>Ahora tomo videos largos: vlogs, gaming, entrevistas. Y de cada video saco Shorts.</p><div class="spec">16:9 · 1080p / 4K</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contacto">
+    <div class="wrap contact">
+      <div class="contact-info">
+        <h2><span class="tag">¿armamos algo?</span>Contacto</h2>
+        <div class="row"><span class="mono">Correo</span>
+          <div class="copyline"><strong id="email">arixl2006@gmail.com</strong><button class="btn small yellow" id="copy" type="button">Copiar</button></div>
+        </div>
+        <div class="row"><span class="mono">Redes</span>
+          <div class="socials">
+            <a href="https://www.tiktok.com/@arixl_ink" target="_blank" rel="noopener">TikTok @arixl_ink</a>
+            <a href="https://www.instagram.com/arixl_xml" target="_blank" rel="noopener">Instagram @arixl_xml</a>
+          </div>
+        </div>
+        <div class="row"><span class="mono">Disponibilidad</span><span>Desde Quito, Ecuador · trabajo remoto para todo el mundo · respondo en 24 h</span></div>
+      </div>
+      <form id="form" novalidate>
+        <div class="ftitle">Mándame tu idea ✎</div>
+        <label for="f-name">Nombre<input id="f-name" name="name" autocomplete="name" placeholder="Tu nombre"></label>
+        <label for="f-mail">Correo<input id="f-mail" name="email" type="email" autocomplete="email" placeholder="tu@correo.com"></label>
+        <label for="f-type">Tipo de proyecto
+          <select id="f-type" name="type"><option>Shorts / TikTok / Reels</option><option>Video largo de YouTube</option><option>Paquete: video largo + Shorts</option><option>Otro</option></select>
+        </label>
+        <label for="f-msg">Cuéntame<textarea id="f-msg" name="msg" placeholder="Duración, fecha de entrega, links al material…"></textarea></label>
+        <button class="btn pink" type="submit" style="justify-self:start">Enviar</button>
+        <p class="note" id="note" role="status"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span class="sign">Ariel FX</span><span class="mono">© 2026 · hecho en Quito, Ecuador</span></div></footer>
+
+<script>
+// Proyectos de ejemplo: reemplazar con títulos, clientes y enlaces reales de YouTube/Vimeo.
+const projects = [
+  { t: "Tienda de recargas", c: "@hexzrecargas", f: "tiktok", d: "", fmt: "TIKTOK", url: "https://www.tiktok.com/@hexzrecargas/video/7694066235469761813", g: ["#ff2e88", "#2b0b3f"], s: "cliente" },
+  { t: "@leo.zyxr", c: "Edit para creador", f: "tiktok", d: "", fmt: "TIKTOK", url: "https://www.tiktok.com/@leo.zyxr/video/7697820779546791176", g: ["#ffe14d", "#1d2b64"], s: "cliente" },
+  { t: "Tutorial de juego", c: "@soy.arcan", f: "tiktok", d: "", fmt: "TIKTOK", url: "https://www.tiktok.com/@soy.arcan/video/7689654518195178772", g: ["#2ee6ff", "#0f2027"], s: "cliente" },
+  { t: "Tutorial de juego", c: "@soy.arcan", f: "tiktok", d: "", fmt: "TIKTOK", url: "https://www.tiktok.com/@soy.arcan/video/7690108252402584853", g: ["#b84dff", "#120a1f"], s: "cliente" },
+];
+const grid = document.getElementById("grid");
+function render(filter) {
+  grid.innerHTML = "";
+  projects.filter(p => filter === "todos" || p.f === filter).forEach(p => {
+    const a = document.createElement("a");
+    a.className = "poster"; a.href = p.url; a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = `
+      <span class="tape" aria-hidden="true"></span>
+      <div class="thumb">
+        <div class="g" style="background:radial-gradient(80% 110% at 25% 25%, ${p.g[0]}, transparent 65%), linear-gradient(135deg, ${p.g[1]}, #0b0a0d)"></div>
+        <span class="fmt">${p.fmt}</span>${p.d ? `<span class="dur">${p.d}</span>` : ""}<span class="mini" aria-hidden="true"></span>
+      </div>
+      <h3>${p.t}</h3>
+      <div class="meta"><span>${p.c}</span><span class="stamp">${p.s}</span></div>`;
+    grid.appendChild(a);
+  });
+}
+render("todos");
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+  render(b.dataset.f);
+}));
+
+// Video destacado: autoplay en silencio, timecode a 30 fps siguiendo el video
+const tcEl = document.getElementById("tc");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const pad = n => String(n).padStart(2, "0");
+const reel = document.getElementById("reel"), playBtn = document.getElementById("playbtn"), soundBtn = document.getElementById("sound");
+function tick() {
+  const fr = Math.floor(reel.currentTime * 30);
+  tcEl.textContent = `00:${pad(Math.floor(fr / 1800) % 60)}:${pad(Math.floor(fr / 30) % 60)}:${pad(fr % 30)}`;
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+function showPlay() { playBtn.hidden = !reel.paused; }
+reel.addEventListener("play", showPlay); reel.addEventListener("pause", showPlay);
+if (reduce) showPlay(); else reel.play().catch(showPlay);
+playBtn.addEventListener("click", () => reel.play().catch(() => {}));
+reel.addEventListener("click", () => reel.paused ? reel.play().catch(() => {}) : reel.pause());
+soundBtn.addEventListener("click", () => {
+  reel.muted = !reel.muted;
+  soundBtn.setAttribute("aria-pressed", String(!reel.muted));
+  soundBtn.textContent = reel.muted ? "🔇 Sonido" : "🔊 Sonido";
+  if (reel.paused) reel.play().catch(() => {});
+});
+
+// Pared con spray: el visitante puede rayar el fondo del hero
+const cv = document.getElementById("spray"), ctx = cv.getContext("2d");
+let color = "#ff2e88", painting = false, last = null;
+function size() {
+  const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+  const img = cv.width ? ctx.getImageData(0, 0, cv.width, cv.height) : null;
+  cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  if (img) ctx.putImageData(img, 0, 0);
+}
+function puff(x, y) {
+  const r = 22;
+  ctx.fillStyle = color;
+  for (let i = 0; i < 46; i++) {
+    const a = Math.random() * Math.PI * 2, d = Math.random() ** 1.6 * r;
+    ctx.globalAlpha = .25 + Math.random() * .5;
+    ctx.fillRect(x + Math.cos(a) * d, y + Math.sin(a) * d, 1.6, 1.6);
+  }
+  ctx.globalAlpha = .12; ctx.beginPath(); ctx.arc(x, y, r * .45, 0, Math.PI * 2); ctx.fill();
+  ctx.globalAlpha = 1;
+}
+function pos(e) { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; }
+function stroke(e) {
+  const [x, y] = pos(e);
+  if (last) { const dx = x - last[0], dy = y - last[1], n = Math.max(1, Math.hypot(dx, dy) / 6);
+    for (let i = 1; i <= n; i++) puff(last[0] + dx * i / n, last[1] + dy * i / n);
+  } else puff(x, y);
+  last = [x, y];
+}
+cv.addEventListener("pointerdown", e => { painting = true; last = null; stroke(e); });
+addEventListener("pointermove", e => { if (painting) stroke(e); });
+addEventListener("pointerup", () => { painting = false; last = null; });
+document.querySelectorAll(".can").forEach(b => b.addEventListener("click", () => {
+  color = b.dataset.c;
+  document.querySelectorAll(".can").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+}));
+document.getElementById("clear").addEventListener("click", () => { ctx.clearRect(0, 0, cv.width, cv.height); drawStarter(); });
+// Unas marcas iniciales para que la pared no empiece vacía
+function drawStarter() {
+  const w = cv.clientWidth, h = cv.clientHeight, keep = color;
+  const marks = [["#ff2e88", .62, .12, .9, .2], ["#2ee6ff", .05, .85, .3, .95], ["#ffe14d", .88, .7, .98, .9]];
+  marks.forEach(([c, x1, y1, x2, y2]) => { color = c; last = null;
+    for (let i = 0; i <= 30; i++) { const t = i / 30; stroke({ clientX: cv.getBoundingClientRect().left + w * (x1 + (x2 - x1) * t), clientY: cv.getBoundingClientRect().top + h * (y1 + (y2 - y1) * t) + Math.sin(t * 7) * 14 }); }
+  });
+  color = keep; last = null;
+}
+size(); drawStarter();
+addEventListener("resize", size);
+
+document.getElementById("copy").addEventListener("click", e => {
+  const btn = e.currentTarget, el = document.getElementById("email");
+  navigator.clipboard.writeText(el.textContent).then(() => { btn.textContent = "¡Copiado!"; }).catch(() => {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selecciónalo";
+  });
+});
+// Envío con FormSubmit: los mensajes llegan a arixl2006@gmail.com
+document.getElementById("form").addEventListener("submit", async e => {
+  e.preventDefault();
+  const form = e.currentTarget, note = document.getElementById("note"), btn = form.querySelector("button[type=submit]");
+  const data = Object.fromEntries(new FormData(form));
+  if (!data.name || !data.email || !data.msg) { note.textContent = "Llena tu nombre, tu correo y cuéntame del proyecto."; return; }
+  btn.disabled = true; note.textContent = "Enviando…";
+  try {
+    const res = await fetch("https://formsubmit.co/ajax/arixl2006@gmail.com", {
+      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ ...data, _subject: "Nuevo proyecto desde Ariel FX", _template: "table" })
+    });
+    if (!res.ok) throw new Error();
+    form.reset(); note.textContent = "¡Mensaje enviado! Te respondo en menos de 24 h.";
+  } catch { note.textContent = "No se pudo enviar. Escríbeme directo a arixl2006@gmail.com."; }
+  btn.disabled = false;
+});
+</script>
+
+</body>
+</html>
